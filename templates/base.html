@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
 
     {% block head %}
     {% endblock head %}
-    
+
 </head>
 <body>
     <nav>
-        <a href="#">home</a>
-        <a href="#">add</a>
-        <a href="#">update</a>
-        <a href="#">delete</a>
+        <a href="{{url_for('home')}}">home</a>
+        <a href="{{url_for('add')}}">add</a>
+        <a href="{{url_for('update')}}">update</a>
+        <a href="{{url_for('delete')}}">delete</a>
 
     </nav>
 

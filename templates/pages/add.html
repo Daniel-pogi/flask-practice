@@ -5,5 +5,14 @@
 {% endblock head %}
 
 {% block body %}
-<h1>add</h1>    
+<h1>add</h1>
+<form action="/add" method="post">
+    <textarea name="note" id="note" placeholder="Write here" cols="30" rows="10"></textarea>
+    <input type="submit" value="add note">
+</form>    
+
+{% for i in data %}
+<div>{{ i.data }}</div>
+{% endfor %}
+
 {% endblock body %}

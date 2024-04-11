@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import Column, Integer, Text
@@ -13,7 +13,8 @@ class Note(db.Model):
     data = Column(Text, nullable=False)
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:root@localhost/sampledb"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:root@localhost/sampledb"
 db.init_app(app)
 
 @app.route('/')
@@ -21,9 +22,17 @@ db.init_app(app)
 def home():
     return render_template('pages/home.html')
 
-@app.route('/add')
+@app.route('/add', methods=["POST", "GET"])
 def add():
-    return render_template('pages/add.html')
+    if request.method == "POST":
+        note = request.form.get("note")
+        data = Note(data=note)
+        db.session.add(data)
+        db.session.commit()
+        return redirect(url_for('add'))
+    data = Note.query.all()
+
+    return render_template('pages/add.html', data=data)
 
 @app.route('/delete')
 def delete():
